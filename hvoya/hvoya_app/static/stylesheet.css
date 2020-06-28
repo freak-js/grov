@@ -1,0 +1,326 @@
+@keyframes dashoffset{
+    0%{
+        stroke-dashoffset:0
+    }
+    100%{
+        stroke-dashoffset:-20px
+    }
+}
+
+
+body{
+    background-color: #171A1E;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    color: floralwhite;
+    font-weight: bold;
+}
+
+/* УНИВЕРСАЛЬНЫЕ */
+
+.w100{
+    width: 100%;
+}
+
+.h100{
+    height: 100%;
+}
+
+.mt90{
+    margin-top: 90px;
+}
+
+.mt50{
+    margin-top: 50px;
+}
+
+.mt30{
+    margin-top: 30px;
+}
+
+.d_flex{
+    display: flex;
+}
+
+.align_items_center{
+    align-items: center;
+}
+
+.flex_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* БЛОКИ */
+
+.graph{
+    margin: 25px 10px 0px 10px;
+    padding: 15px 10px 10px 10px;
+    background-color: #26282a;
+    border-radius: 40px;
+}
+
+.graph_title_container{
+    height: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+    color: #ef6914;
+}
+
+.graph_legend_container{
+    font-size: 50px;
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+.ball{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.indicators{
+    display: flex;
+    height: 250px;
+    justify-content: space-between;
+    margin-top: 65px;
+}
+
+.data_from_sensors{
+    width: 50%;
+    flex-direction: column;
+}
+
+.lightbulb{
+    height: 380px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.lightbulb_data{
+    width: 100%;
+    text-align: center;
+}
+
+.flower{
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.soil_indicators{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+}
+
+.soil_humidity_scale_conatainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.soil_humidity_scale{
+    width: 45px;
+    height: 65%;
+    background-color: gainsboro;
+    border-radius: 25px;
+    margin-right: 65px;
+    margin-top: 90px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.soil_humidity_value{
+    width: 100%;
+    height: 80%;
+    border-radius: 25px;
+    background-color: #4682b4;
+}
+
+.link_to_settings_container{
+    height: 300px;
+}
+
+/* ССЫЛКИ */
+
+.link_to_settings{
+    width: 65%;
+    height: 125px;
+    background-color: #ef6a14;
+    font-size: 70px;
+    text-decoration: none;
+    color: white;
+    border-radius: 50px;
+}
+
+/* КНОПКИ */
+
+
+
+/* ШРИФТЫ И ИХ ОФОРМЛЕНИЕ */
+
+.digital_indicators{
+    font-size: 130px;
+}
+
+.orange_color{
+    color: #f46b12;
+}
+
+.orange_background_color{
+    background-color: #f46b12;
+}
+
+.blue_color{
+    color: #34ccf2;
+}
+
+.blue_background_color{
+    background-color: #34ccf2;
+}
+
+.water_color{
+    color: #4682b4;
+}
+
+.water_background_color{
+    background-color: #4682b4;
+}
+
+.data_title_font_size{
+    font-size: 50px;
+}
+
+.lightbulb_timer{
+    font-size: 100px;
+}
+
+.lightbulb_title{
+    font-size: 50px;
+}
+
+.lightbulb_on_font{
+    color: #f8dd62;
+}
+
+.lightbulb_off_font{
+    color: #EBEBEB;
+}
+
+.soil_indicators_value{
+    font-size: 110px;
+    margin-top: 120px;
+}
+
+.soil_indicators_title{
+    font-size: 35px;
+    text-align: center;
+}
+
+/* ИЗОБРАЖЕНИЯ И ГРАФИКА */
+
+.lightbulb_img{
+    width: 13%;
+}
+
+.flower_img{
+    width: 370px;
+}
+
+/* ПЕРЕОПРЕДЕЛНИЕ СТИЛЕЙ БИБЛИОТЕК */
+
+.ct-label{
+    color: #ffffff;
+    font-size: 22px;
+}
+
+
+
+
+.ct-series-a .ct-line{
+    stroke: #4682b4 !important;
+    stroke-width: 8px;
+}
+
+.ct-series-a .ct-point{
+    stroke: #4682b4 !important;
+    stroke-width: 25px;
+}
+
+
+
+
+.ct-series-b .ct-line{
+    stroke: #34ccf2 !important;
+    stroke-width: 8px;
+}
+
+.ct-series-b .ct-point{
+    stroke: #34ccf2 !important;
+    stroke-width: 25px;
+}
+
+
+
+
+.ct-series-c .ct-line{
+    stroke: #f46b12 !important;
+    stroke-width: 8px;
+}
+
+.ct-series-c .ct-point{
+    stroke: #f46b12 !important;
+    stroke-width: 25px;
+}
+
+
+
+
+.ct-series-d .ct-line{
+    stroke: #4682b469 !important;
+    stroke-width: 5px;
+    stroke-dasharray: 10px;
+    animation: dashoffset 1s linear infinite;
+}
+
+.ct-series-d .ct-point{
+    stroke: #4682b469 !important;
+    stroke-width: 15px;
+}
+
+
+
+
+.ct-series-e .ct-line{
+    stroke: #5accf27a !important;
+    stroke-width: 5px;
+    stroke-dasharray: 10px;
+    animation: dashoffset 1s linear infinite;
+}
+
+.ct-series-e .ct-point{
+    stroke: #5accf27a !important;
+    stroke-width: 15px;
+}
+
+
+
+
+.ct-series-f .ct-line{
+    stroke: #ef6a147a !important;
+    stroke-width: 5px;
+    stroke-dasharray: 10px;
+    animation: dashoffset 1s linear infinite;
+}
+
+.ct-series-f .ct-point{
+    stroke: #ef6a147a !important;
+    stroke-width: 15px;
+}
