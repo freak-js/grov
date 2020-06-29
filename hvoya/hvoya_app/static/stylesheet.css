@@ -12,7 +12,7 @@ body{
     background-color: #171A1E;
     margin: 0;
     font-family: Helvetica, sans-serif;
-    color: floralwhite;
+    color: #cedce9;
     font-weight: bold;
 }
 
@@ -67,7 +67,7 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 70px;
-    color: #ef6914;
+    color: #cedce9;
 }
 
 .graph_legend_container{
@@ -146,6 +146,10 @@ body{
 
 .link_to_settings_container{
     height: 300px;
+}
+
+.donut{
+    margin-top: 20px;
 }
 
 /* ССЫЛКИ */
@@ -323,4 +327,25 @@ body{
 .ct-series-f .ct-point{
     stroke: #ef6a147a !important;
     stroke-width: 15px;
+}
+
+
+
+
+.ct-series-a .ct-slice-donut-solid{
+    fill: #34ccf2;
+}
+
+
+
+
+.ct-series-b .ct-slice-donut-solid{
+    fill: #ef6914;
+}
+
+
+
+.ct-chart-donut .ct-label{
+    font-size: 85px;
+    fill: #ececec;
 }
