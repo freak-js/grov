@@ -10,8 +10,12 @@ class GrowBoxSettings(models.Model):
 
 
 class GrowBoxDateTime(models.Model):
-    date_time = models.DateTimeField('Дата и время контрольного снятия данных с сенсоров', auto_now_add=True)
-
+    year = models.IntegerField('Год')
+    month = models.IntegerField('Месяц')
+    day = models.IntegerField('День')
+    hours = models.IntegerField('Часы')
+    minutes = models.IntegerField('Минуты')
+    seconds = models.IntegerField('Секунды')
 
 class GrowBoxHistoricalData(models.Model):
     air_temperature = models.IntegerField('Температура воздуха')
@@ -24,6 +28,7 @@ class GrowBox():
     CURRENT_AIR_TEMPERATURE: int = 0
     CURRENT_AIR_HUMIDITY: int = 0
     CURRENT_SOIL_HUMIDITY: int = 0
+    LAST_WATERING_DATETIME = 0
 
     def check_datetime(self):
         pass
