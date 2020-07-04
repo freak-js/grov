@@ -7,6 +7,9 @@
     }
 }
 
+html{
+    height: 100%;
+}
 
 body{
     background-color: #171A1E;
@@ -14,6 +17,7 @@ body{
     font-family: Helvetica, sans-serif;
     color: #cedce9;
     font-weight: bold;
+    height: 100%;
 }
 
 /* УНИВЕРСАЛЬНЫЕ */
@@ -38,6 +42,22 @@ body{
     margin-top: 30px;
 }
 
+.f_size50{
+    font-size: 50px;
+}
+
+.f_size80{
+    font-size: 80px;
+}
+
+.f_size100{
+    font-size: 100px;
+}
+
+.f_size150{
+    font-size: 150px;
+}
+
 .d_flex{
     display: flex;
 }
@@ -50,6 +70,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.flex_direction_column{
+    flex-direction: column;
 }
 
 /* БЛОКИ */
