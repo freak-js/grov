@@ -8,6 +8,10 @@ from hvoya.settings import AUTH_TOKEN
 
 
 def token_checker(view):
+    """
+    Проверяет запрос на наличие токена переданного в
+    качестве параметра GET запроса по ключу 'token'.
+    """
     def wrapper(request):
         token = request.GET.get('token')
 
