@@ -2,14 +2,15 @@
 
 
 from datetime import datetime
+from typing import Dict
 
 from hvoya_app.models import GrowBoxHistoricalData
 
 
-def get_historical_data() -> dict:
+def get_historical_data() -> Dict[str, list]:
     """
-
-    :return:
+    Получает исторические данные за текуший и вчеращний день.
+    :return: словарь формата {'key': list}
     """
     historical_data: dict = {
         'air_temperature': [],
