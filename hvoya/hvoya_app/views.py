@@ -4,32 +4,26 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
-from .utils.db_utils import get_historical_data
+from .utils.db_utils import get_historical_data, get_current_data
 from .utils.token_auth import token_checker
 
 
 @token_checker
 def index(request: HttpRequest) -> HttpResponse:
     """
-
-    :param request:
-    :return: HttpResponse
+    Контроллер главной страницы с отображением состояния сенсоров.
     """
-    historical_data = get_historical_data()
-    return render(request, 'hvoya_app/index.html', {'historical_data': historical_data})
+    historical_data: dict = get_historical_data()
+    current_data: dict = get_current_data()
+    context: dict = {
+        'historical_data': historical_data,
+        'current_data': current_data
+    }
+    return render(request, 'hvoya_app/index.html', context)
 
 
-def change_settings(request: HttpRequest) -> HttpResponse:
+def settings(request: HttpRequest) -> HttpResponse:
      return render(request, 'hvoya_app/change_settings.html')
-
-
-def create_new_flower(request: HttpRequest) -> HttpResponse:
-    """
-
-    :param request:
-    :return: HttpResponse
-    """
-    return render(request, 'hvoya_app/create_new_flower.html')
 
 
 # Контроллеры для заполнения БД тестовыми данными.
