@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponse
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
 from .utils.db_utils import get_historical_data, get_current_data
-from .utils.token_auth import is_staff_checker
+from .utils.auth_utils import is_staff_checker
 
 
 @is_staff_checker
@@ -26,15 +26,17 @@ def settings(request: HttpRequest) -> HttpResponse:
      return render(request, 'hvoya_app/change_settings.html')
 
 
-# Контроллеры для заполнения БД тестовыми данными.
-
-
+@is_staff_checker
 def generate_test_data(request: HttpRequest) -> HttpResponse:
     """
     Контроллер заполнения БД историческими данными показаний с сенсоров.
     :param request:
     :return:
     """
+    GrowBoxDateTime.objects.all().delete()
+    GrowBoxHistoricalData.objects.all().delete()
+
+
     from random import randint
     today: datetime = datetime.now()
     yesterday: datetime = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
