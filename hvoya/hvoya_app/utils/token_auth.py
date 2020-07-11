@@ -1,21 +1,16 @@
 # Этот модуль предназначен для логики авторизации через декорацию
-# контроллеров функцией проверки наличия токена в запросе
+# контроллеров функцией проверки наличия у пользователя флага is_staff
 
 
 from django.core.exceptions import PermissionDenied
 
-from hvoya.settings import AUTH_TOKEN
 
-
-def token_checker(view):
+def is_staff_checker(view):
     """
-    Проверяет запрос на наличие токена переданного в
-    качестве параметра GET запроса по ключу 'token'.
+    Пропускает только ползователей с флагом is_staff.
     """
     def wrapper(request):
-        token = request.GET.get('token')
-
-        if not token or token != AUTH_TOKEN:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         checked_view = view(request)

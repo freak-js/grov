@@ -5,10 +5,10 @@ from django.http import HttpRequest, HttpResponse
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
 from .utils.db_utils import get_historical_data, get_current_data
-from .utils.token_auth import token_checker
+from .utils.token_auth import is_staff_checker
 
 
-@token_checker
+@is_staff_checker
 def index(request: HttpRequest) -> HttpResponse:
     """
     Контроллер главной страницы с отображением состояния сенсоров.
