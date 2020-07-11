@@ -17,6 +17,7 @@ class GrowBoxDateTime(models.Model):
     minutes = models.IntegerField('Минуты')
     seconds = models.IntegerField('Секунды')
 
+
 class GrowBoxHistoricalData(models.Model):
     air_temperature = models.IntegerField('Температура воздуха')
     air_humidity = models.IntegerField('Влажность воздуха')
@@ -24,7 +25,7 @@ class GrowBoxHistoricalData(models.Model):
     datetime = models.OneToOneField(GrowBoxDateTime, on_delete=models.CASCADE)
 
 
-class GrowBox():
+class GrowBox:
     CURRENT_AIR_TEMPERATURE: int = 0
     CURRENT_AIR_HUMIDITY: int = 0
     CURRENT_SOIL_HUMIDITY: int = 0

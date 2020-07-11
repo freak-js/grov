@@ -21,14 +21,14 @@
         
         <div class="data_from_sensors flex_center orange_color h100">
 
-            <span class="digital_indicators">25&#176;</span>
+            <span class="digital_indicators">{{ current_data.air_temperature }}&#176;</span>
             <span class="data_title data_title_font_size">Температура</span>
 
         </div>
 
         <div class="data_from_sensors flex_center blue_color h100">
 
-            <span class="digital_indicators">64%</span>
+            <span class="digital_indicators">{{ current_data.air_humidity }}%</span>
             <span class="data_title data_title_font_size">Влажность</span>
 
         </div>
@@ -75,10 +75,16 @@
 
         <div class="soil_indicators w100 h100 water_color">
 
-            <span class="soil_indicators_value">80%</span>
+            <span class="soil_indicators_value">{{ current_data.soil_humidity }}%</span>
             <span class="soil_indicators_title">Влажность<br>грунта</span>
             
         </div>
+
+    </div>
+
+    <div class="flex_center water_color">
+
+        <span class="f_size50">Последний полив:</span>
 
     </div>
 
