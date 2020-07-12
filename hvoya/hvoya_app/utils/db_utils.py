@@ -4,13 +4,15 @@
 from datetime import datetime, timedelta
 from typing import Dict
 
-from hvoya_app.models import GrowBoxHistoricalData, GrowBox
+from django.http import HttpRequest
+from django.core.exceptions import ObjectDoesNotExist, FieldError
+
+from hvoya_app.models import GrowBoxHistoricalData, GrowBox, CashedGrowBoxSettings, GrowBoxSettings
 
 
 def get_historical_data() -> Dict[str, list]:
     """
     Получает исторические данные за текуший и вчеращний день.
-    :return: словарь формата {'key': list}
     """
     historical_data: dict = {
         'air_temperature': [],
@@ -42,14 +44,45 @@ def get_historical_data() -> Dict[str, list]:
     return historical_data
 
 
-def get_current_data():
+def get_current_data() -> Dict[str, int]:
     """
-
-    :return: словарь формата {'key': int}
+    Возвращает текущие данные показателей сенсоров из оперативной памяти.
     """
     current_data: dict = {
-        'air_temperature': GrowBox.CURRENT_AIR_TEMPERATURE,
-        'air_humidity': GrowBox.CURRENT_AIR_HUMIDITY,
-        'soil_humidity': GrowBox.CURRENT_SOIL_HUMIDITY
+        'air_temperature': GrowBox.current_air_temperature,
+        'air_humidity': GrowBox.current_air_humidity,
+        'soil_humidity': GrowBox.current_soil_humidity
     }
     return current_data
+
+
+def get_settings_data() -> Dict[str, int]:
+    """
+    Возвращает кеш настроек гроубокса в формате словаря.
+    """
+    if not CashedGrowBoxSettings.cache_is_installed(CashedGrowBoxSettings):
+        CashedGrowBoxSettings.set_cash(CashedGrowBoxSettings)
+    return CashedGrowBoxSettings.get_cashed_settings_data(CashedGrowBoxSettings)
+
+
+def set_new_settings(request: HttpRequest) -> None:
+    settings: GrowBoxSettings = GrowBoxSettings.objects.all().first()
+
+    if not settings:
+        raise ObjectDoesNotExist
+
+    minimal_soil_humidity = request.POST.get('minimal_soil_humidity')
+    lamp_on_time = request.POST.get('lamp_on_time')
+    lamp_off_time = request.POST.get('lamp_off_time')
+    pump_run_time = request.POST.get('pump_run_time')
+    data_sending_frequency = request.POST.get('data_sending_frequency')
+
+    if not all([minimal_soil_humidity, lamp_on_time, lamp_off_time, pump_run_time, data_sending_frequency]):
+        raise FieldError
+
+    settings.minimal_soil_humidity = minimal_soil_humidity
+    settings.lamp_on_time = lamp_on_time
+    settings.lamp_off_time = lamp_off_time
+    settings.pump_run_time = pump_run_time
+    settings.data_sending_frequency = data_sending_frequency
+    settings.save()

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Состояние системы</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="/static/chartist.min.css">
+    <link rel="stylesheet" href="/static/stylesheet.css">
+    <script src="/static/chartist.min.js"></script>
+
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+
+    <form action="/settings/" method="POST" class="settings_form">
+
+        {% csrf_token %}
+
+        <div>
+
+            <label for="minimal_soil_humidity">Минимальная влажность грунта</label>
+            <label for="lamp_on_time">Час включения</label>
+            <label for="lamp_off_time">Час отключения</label>
+            <label for="pump_run_time">Время работы помпы</label>
+            <label for="data_sending_frequency">Промежутки отправки данных</label>
+
+        </div>
+
+        <div>
+
+            <input type="number" name="minimal_soil_humidity" id="minimal_soil_humidity">
+            <input type="number" name="lamp_on_time" id="lamp_on_time">
+            <input type="number" name="lamp_off_time" id="lamp_off_time">
+            <input type="number" name="pump_run_time" id="pump_run_time">
+            <input type="number" name="data_sending_frequency" id="data_sending_frequency">
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
