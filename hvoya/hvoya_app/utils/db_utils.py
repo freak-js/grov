@@ -6,8 +6,9 @@ from typing import Dict
 
 from django.http import HttpRequest
 from django.core.exceptions import ObjectDoesNotExist, FieldError
+from django.core.cache import cache
 
-from hvoya_app.models import GrowBoxHistoricalData, GrowBox, CashedGrowBoxSettings, GrowBoxSettings
+from hvoya_app.models import GrowBoxHistoricalData, CashedGrowBoxSettings, GrowBoxSettings
 
 
 def get_historical_data() -> Dict[str, list]:
@@ -42,18 +43,6 @@ def get_historical_data() -> Dict[str, list]:
             historical_data['yesterday_soil_humidity'].append(data.soil_humidity)
 
     return historical_data
-
-
-def get_current_data() -> Dict[str, int]:
-    """
-    Возвращает текущие данные показателей сенсоров из оперативной памяти.
-    """
-    current_data: dict = {
-        'air_temperature': GrowBox.current_air_temperature,
-        'air_humidity': GrowBox.current_air_humidity,
-        'soil_humidity': GrowBox.current_soil_humidity
-    }
-    return current_data
 
 
 def get_settings_data() -> Dict[str, int]:
@@ -102,4 +91,21 @@ def update_sensors_data(new_sensors_data: dict) -> None:
     if not all([air_temperature, air_humidity, soil_humidity]):
         raise FieldError
 
-    GrowBox.set_new_sensors_data(GrowBox, air_temperature, air_humidity, soil_humidity)
+    cache.set('air_temperature', air_temperature)
+    cache.set('air_humidity', air_humidity)
+    cache.set('soil_humidity', soil_humidity)
+
+
+def dive_sensors_cashed_data() -> dict:
+    """
+    Отдает словарь с кешированными данными сенсоров.
+    """
+    air_temperature = cache.get('air_temperature')
+    air_humidity = cache.get('air_humidity')
+    soil_humidity = cache.get('soil_humidity')
+    sensors_cashed_data = {
+        'air_temperature': air_temperature,
+        'air_humidity': air_humidity,
+        'soil_humidity': soil_humidity
+    }
+    return sensors_cashed_data
