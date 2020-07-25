@@ -34,8 +34,30 @@ class GrowBox:
     last_watering_datetime = 0
 
     def check_datetime(self):
-        pass
+        """
+        Нужен для детектирования прохождения двухчасового
+        интервала между записью в базу принятых данных.
+        """
+        pass # TODO реализовать логику сохранения показаний в БД
 
+    def set_new_sensors_data(self, air_temperature, air_humidity, soil_humidity) -> None:
+        """
+        Кеширует показания сенсоров как значение атрибутов класса.
+        """
+        self.current_air_temperature = air_temperature
+        self.current_air_humidity = air_humidity
+        self.current_soil_humidity = soil_humidity
+
+    def dive_sensors_cashed_data(self) -> dict:
+        """
+        Отдает словарь с кешированными данными сенсоров.
+        """
+        sensors_cashed_data = {
+            'air_temperature': self.current_air_temperature,
+            'air_humidity': self.current_air_humidity,
+            'soil_humidity': self.current_soil_humidity
+        }
+        return sensors_cashed_data
 
 class CashedGrowBoxSettings:
     minimal_soil_humidity: int = 0
@@ -53,13 +75,14 @@ class CashedGrowBoxSettings:
         growbox_settings = GrowBoxSettings.objects.all().first()
 
         if not growbox_settings:
-            GrowBoxSettings(
+            growbox_settings = GrowBoxSettings(
                 minimal_soil_humidity=settings.DEFAULT_MINIMAL_SOIL_HUMIDITY,
                 lamp_on_time=settings.DEFAULT_LAMP_ON_TIME,
                 lamp_off_time=settings.DEFAULT_LAMP_OFF_TIME,
                 pump_run_time=settings.DEFAULT_PUMP_RUN_TIME,
                 data_sending_frequency=settings.DEFAULT_DATA_SENDING_FREQUENCY
-            ).save()
+            )
+            growbox_settings.save()
         else:
             self.set_settings_from_database(self, growbox_settings)
 

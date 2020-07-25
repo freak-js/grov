@@ -66,6 +66,9 @@ def get_settings_data() -> Dict[str, int]:
 
 
 def set_new_settings(request: HttpRequest) -> None:
+    """
+    Устанавливает новые настройки полученные от пользователя.
+    """
     settings: GrowBoxSettings = GrowBoxSettings.objects.all().first()
 
     if not settings:
@@ -86,3 +89,17 @@ def set_new_settings(request: HttpRequest) -> None:
     settings.pump_run_time = pump_run_time
     settings.data_sending_frequency = data_sending_frequency
     settings.save()
+
+
+def update_sensors_data(new_sensors_data: dict) -> None:
+    """
+    Кеширует свежие показания сенсоров как значения атрибутов класса GrowBox.
+    """
+    air_temperature = new_sensors_data.get('air_temperature')
+    air_humidity = new_sensors_data.get('air_humidity')
+    soil_humidity = new_sensors_data.get('soil_humidity')
+
+    if not all([air_temperature, air_humidity, soil_humidity]):
+        raise FieldError
+
+    GrowBox.set_new_sensors_data(GrowBox, air_temperature, air_humidity, soil_humidity)
