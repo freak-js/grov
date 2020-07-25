@@ -95,3 +95,15 @@ DEFAULT_LAMP_OFF_TIME = 20
 DEFAULT_PUMP_RUN_TIME = 5
 
 DEFAULT_DATA_SENDING_FREQUENCY = 5
+
+# Настройки для Redis
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

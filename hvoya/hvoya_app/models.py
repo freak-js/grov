@@ -27,38 +27,6 @@ class GrowBoxHistoricalData(models.Model):
     datetime = models.OneToOneField(GrowBoxDateTime, on_delete=models.CASCADE)
 
 
-class GrowBox:
-    current_air_temperature: int = 0
-    current_air_humidity: int = 0
-    current_soil_humidity: int = 0
-    last_watering_datetime = 0
-
-    def check_datetime(self):
-        """
-        Нужен для детектирования прохождения двухчасового
-        интервала между записью в базу принятых данных.
-        """
-        pass # TODO реализовать логику сохранения показаний в БД
-
-    def set_new_sensors_data(self, air_temperature, air_humidity, soil_humidity) -> None:
-        """
-        Кеширует показания сенсоров как значение атрибутов класса.
-        """
-        self.current_air_temperature = air_temperature
-        self.current_air_humidity = air_humidity
-        self.current_soil_humidity = soil_humidity
-
-    def dive_sensors_cashed_data(self) -> dict:
-        """
-        Отдает словарь с кешированными данными сенсоров.
-        """
-        sensors_cashed_data = {
-            'air_temperature': self.current_air_temperature,
-            'air_humidity': self.current_air_humidity,
-            'soil_humidity': self.current_soil_humidity
-        }
-        return sensors_cashed_data
-
 class CashedGrowBoxSettings:
     minimal_soil_humidity: int = 0
     lamp_on_time: int = 0

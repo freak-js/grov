@@ -7,9 +7,10 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import GrowBoxDateTime, GrowBoxHistoricalData, GrowBox
+from .models import GrowBoxDateTime, GrowBoxHistoricalData
 from .utils.db_utils import (
-    get_historical_data, get_current_data, get_settings_data, set_new_settings, update_sensors_data
+    get_historical_data, get_settings_data, set_new_settings, update_sensors_data,
+    dive_sensors_cashed_data
 )
 from .utils.auth_utils import is_staff_checker
 
@@ -21,7 +22,7 @@ def index(request: HttpRequest) -> HttpResponse:
     Контроллер главной страницы с отображением состояния сенсоров.
     """
     historical_data: dict = get_historical_data()
-    current_data: dict = get_current_data()
+    current_data: dict = dive_sensors_cashed_data()
     context: dict = {
         'historical_data': historical_data,
         'current_data': current_data
@@ -60,7 +61,7 @@ def get_cached_sensors_data(request: HttpRequest) -> HttpResponse:
     """
     Контроллер отдающий текущие кешированные показатели сенсоров.
     """
-    return JsonResponse(GrowBox.dive_sensors_cashed_data(GrowBox))
+    return JsonResponse(dive_sensors_cashed_data())
 
 
 @require_GET
