@@ -83,3 +83,15 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+# Дефолтные настройки для гроубокса
+
+DEFAULT_MINIMAL_SOIL_HUMIDITY = 40
+
+DEFAULT_LAMP_ON_TIME = 8
+
+DEFAULT_LAMP_OFF_TIME = 20
+
+DEFAULT_PUMP_RUN_TIME = 5
+
+DEFAULT_DATA_SENDING_FREQUENCY = 5
