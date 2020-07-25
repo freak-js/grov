@@ -21,14 +21,14 @@
         
         <div class="data_from_sensors flex_center orange_color h100">
 
-            <span class="digital_indicators">{{ current_data.air_temperature }}&#176;</span>
+            <span class="digital_indicators" id="air_temperature_data">{{ current_data.air_temperature }}&#176;</span>
             <span class="data_title data_title_font_size">Температура</span>
 
         </div>
 
         <div class="data_from_sensors flex_center blue_color h100">
 
-            <span class="digital_indicators">{{ current_data.air_humidity }}%</span>
+            <span class="digital_indicators" id="air_humidity_data">{{ current_data.air_humidity }}%</span>
             <span class="data_title data_title_font_size">Влажность</span>
 
         </div>
@@ -167,6 +167,8 @@
 
 <script>
 
+    // Блок инициализации графиков
+
     let historical_data = JSON.parse(document.getElementById('historical_data').textContent);
 
     var graph_data = {
@@ -201,6 +203,27 @@
     new Chartist.Pie('#chart_donut', donut_data, donut_option);
     new Chartist.Line('#chart_graph', graph_data);
 
+    // Блок обработки показаний сенсоров
+
+    let url_for_get_cached_sensors_data = 'http://45.143.139.13/get_cached_sensors_data/';
+    let xhr = new XMLHttpRequest();
+    let air_temperature = document.getElementById('air_temperature_data')
+    let air_humidity = document.getElementById('air_humidity_data')
+
+
+    function getCachedSensorsData() {
+
+        xhr.open('GET', url_for_get_cached_sensors_data, false);
+        xhr.send();
+        sensors_data = JSON.parse(xhr.responseText)
+        air_temperature.innerHTML = sensors_data['air_temperature'] + '&#176;'
+        air_humidity.innerHTML = sensors_data['air_humidity'] + '%'
+
+    };
+
+
+    setInterval(getCachedSensorsData, 3000);
+    
 </script>
 
 </html>
