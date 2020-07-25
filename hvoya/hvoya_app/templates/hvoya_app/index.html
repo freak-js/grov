@@ -61,7 +61,7 @@
 
             <div class="soil_humidity_scale">
 
-                <div class="soil_humidity_value"></div>
+                <div class="soil_humidity_value" id="soil_humidity_heigh"></div>
                 
             </div>
 
@@ -75,7 +75,7 @@
 
         <div class="soil_indicators w100 h100 water_color">
 
-            <span class="soil_indicators_value">{{ current_data.soil_humidity }}%</span>
+            <span class="soil_indicators_value" id="soil_humidity_data">{{ current_data.soil_humidity }}%</span>
             <span class="soil_indicators_title">Влажность<br>грунта</span>
             
         </div>
@@ -207,17 +207,17 @@
 
     let url_for_get_cached_sensors_data = 'http://127.0.0.1:8000/get_cached_sensors_data/';
     let xhr = new XMLHttpRequest();
-    let air_temperature = document.getElementById('air_temperature_data')
-    let air_humidity = document.getElementById('air_humidity_data')
 
 
     function getCachedSensorsData() {
 
         xhr.open('GET', url_for_get_cached_sensors_data, false);
         xhr.send();
-        sensors_data = JSON.parse(xhr.responseText)
-        air_temperature.innerHTML = sensors_data['air_temperature'] + '&#176;'
-        air_humidity.innerHTML = sensors_data['air_humidity'] + '%'
+        sensors_data = JSON.parse(xhr.responseText);
+        air_temperature_data.innerHTML = sensors_data['air_temperature'] + '&#176;';
+        air_humidity_data.innerHTML = sensors_data['air_humidity'] + '%';
+        soil_humidity_data.innerHTML = sensors_data['soil_humidity'] + '%';
+        soil_humidity_heigh.style.height = sensors_data['soil_humidity'] + '%';
 
     };
 
