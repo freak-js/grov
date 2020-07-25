@@ -96,7 +96,7 @@ def update_sensors_data(new_sensors_data: dict) -> None:
     cache.set('soil_humidity', soil_humidity)
 
 
-def dive_sensors_cashed_data() -> dict:
+def give_sensors_cashed_data() -> dict:
     """
     Отдает словарь с кешированными данными сенсоров.
     """
