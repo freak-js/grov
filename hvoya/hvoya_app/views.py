@@ -40,7 +40,8 @@ def settings(request: HttpRequest) -> HttpResponse:
         current_cached_settings: dict = get_settings_data()
         return render(request, 'hvoya_app/settings.html', current_cached_settings)
     set_new_settings(request)
-    return redirect('index')
+    context = {'message': 'Настройки успешно применены!'}
+    return render(request, 'hvoya_app/notification.html', context)
 
 
 @csrf_exempt
