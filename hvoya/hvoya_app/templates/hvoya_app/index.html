@@ -35,23 +35,41 @@
 
     </div>
 
-    <div class="lightbulb lightbulb_on_font">
+    <div class="lightbulb">
 
-        <div class="lightbulb_data">
+        {% if lighting_data.lamp_on %}
 
-            <span class="lightbulb_title">Выключение<br>через:</span>
+            <div class="lightbulb_data">
 
-        </div>
+                <span class="lightbulb_title lightbulb_on_font">Выключение<br>через:</span>
 
-        <!-- <img class="lightbulb_img" src="{% static 'light_off.png' %}" alt="lightbulb"> -->
+            </div>
 
-        <img class="lightbulb_img" src="{% static 'light_on.png' %}" alt="lightbulb">
+            <img class="lightbulb_img" src="{% static 'light_on.png' %}" alt="lightbulb">
 
-        <div class="lightbulb_data">
+            <div class="lightbulb_data">
 
-            <span class="lightbulb_timer">02:15</span>
+                <span class="lightbulb_timer lightbulb_on_font" id="lamp_time">{{ lighting_data.time_value }}</span>
+    
+            </div>
 
-        </div>
+        {% else %}
+
+            <div class="lightbulb_data">
+
+                <span class="lightbulb_title lightbulb_off_font">Включение<br>через:</span>
+
+            </div>
+
+            <img class="lightbulb_img" src="{% static 'light_off.png' %}" alt="lightbulb">
+
+            <div class="lightbulb_data">
+
+                <span class="lightbulb_timer lightbulb_off_font" id="lamp_time">{{ lighting_data.time_value }}</span>
+    
+            </div>
+
+        {% endif %}
 
     </div>
 
@@ -217,12 +235,13 @@
         air_temperature_data.innerHTML = sensors_data['air_temperature'] + '&#176;';
         air_humidity_data.innerHTML = sensors_data['air_humidity'] + '%';
         soil_humidity_data.innerHTML = sensors_data['soil_humidity'] + '%';
+        lamp_time.innerHTML = sensors_data['lamp_time'];
         soil_humidity_heigh.style.height = sensors_data['soil_humidity'] + '%';
 
     };
 
 
-    setInterval(getCachedSensorsData, 3000);
+    setInterval(getCachedSensorsData, 4000);
     
 </script>
 

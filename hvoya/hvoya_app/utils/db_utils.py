@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import Dict
 
 from django.http import HttpRequest
-from django.core.exceptions import ObjectDoesNotExist, FieldError
+from django.core.exceptions import FieldError
 from django.core.cache import cache
 
 from hvoya_app.models import GrowBoxHistoricalData, GrowBoxSettings
@@ -19,7 +19,7 @@ def get_historical_data() -> Dict[str, list]:
     """
     Получает исторические данные за текуший и вчеращний день.
     """
-    historical_data: dict = {
+    historical_data = {
         'air_temperature': [],
         'air_humidity': [],
         'soil_humidity': [],
@@ -27,8 +27,8 @@ def get_historical_data() -> Dict[str, list]:
         'yesterday_air_humidity': [],
         'yesterday_soil_humidity': []
     }
-    today: datetime = datetime.now()
-    yesterday: datetime = today - timedelta(days=1)
+    today = datetime.now()
+    yesterday = today - timedelta(days=1)
     historical_data_queryset = GrowBoxHistoricalData.objects.select_related().filter(
         datetime__year__gte=yesterday.year,
         datetime__month__gte=yesterday.month,
@@ -94,7 +94,7 @@ def get_cashed_settings_data() -> Dict[str, int]:
     """
     Возвращает значения кешированных настроек из Redis в формате словаря.
     """
-    cashed_settings_data: dict = {
+    cashed_settings_data = {
         'minimal_soil_humidity': cache.get('minimal_soil_humidity'),
         'lamp_on_time': cache.get('lamp_on_time'),
         'lamp_off_time': cache.get('lamp_off_time'),
@@ -108,7 +108,7 @@ def set_new_settings(request: HttpRequest) -> None:
     """
     Устанавливает новые настройки полученные от пользователя.
     """
-    settings: GrowBoxSettings = GrowBoxSettings.objects.all().first()
+    settings = GrowBoxSettings.objects.all().first()
 
     if not settings:
         set_default_settings_and_cash_them()
@@ -128,6 +128,12 @@ def set_new_settings(request: HttpRequest) -> None:
     settings.pump_run_time = pump_run_time
     settings.data_sending_frequency = data_sending_frequency
     settings.save()
+
+    cache.set('minimal_soil_humidity', minimal_soil_humidity, timeout=None)
+    cache.set('lamp_on_time', lamp_on_time, timeout=None)
+    cache.set('lamp_off_time', lamp_off_time, timeout=None)
+    cache.set('pump_run_time', pump_run_time, timeout=None)
+    cache.set('data_sending_frequency', data_sending_frequency, timeout=None)
 
 
 # БЛОК РАБОТЫ С ДАННЫМИ СЕНСОРОВ
@@ -159,6 +165,50 @@ def give_sensors_cashed_data() -> dict:
     sensors_cashed_data = {
         'air_temperature': air_temperature,
         'air_humidity': air_humidity,
-        'soil_humidity': soil_humidity
+        'soil_humidity': soil_humidity,
+        'lamp_time': get_lighting_data()['time_value']
     }
     return sensors_cashed_data
+
+
+# БЛОК РАБОТЫ С ДАННЫМИ ОСВЕЩЕНИЯ
+
+
+def get_lighting_data() -> dict:
+    """
+     Отдает словарь со статусом работы лампы и временем до включения/отключения.
+    """
+    current_datetime = datetime.now()
+    settings = get_settings_data()
+    lamp_on_time = current_datetime.replace(hour=int(settings['lamp_on_time']), minute=0, second=0, microsecond=0)
+    lamp_off_time = current_datetime.replace(hour=int(settings['lamp_off_time']), minute=0, second=0, microsecond=0)
+
+    if lamp_on_time <= current_datetime <= lamp_off_time:
+        lamp_on = True
+        time_value = lamp_off_time - current_datetime
+
+    else:
+        lamp_on = False
+        time_value = (
+            lamp_on_time - current_datetime if
+            current_datetime <= lamp_on_time else
+            (lamp_on_time + timedelta(days=1)) - current_datetime
+        )
+    hour, residue = divmod(time_value.seconds, 3600)
+    minute = residue // 60
+    lighting_data = {
+        'lamp_on': lamp_on,
+        'time_value': '{}:{}'.format(correct_lamp_time(hour), correct_lamp_time(minute))
+    }
+    return lighting_data
+
+
+def correct_lamp_time(time: int) -> str:
+    """
+    Добавляет '0' перед переданным значением времени, если оно состоит
+    только из одного символа, приводя формат времни из '1:12' в '01:12'.
+    """
+    time_to_str = str(time)
+    if len(time_to_str) < 2:
+        return '{}{}'.format('0', time)
+    return time_to_str

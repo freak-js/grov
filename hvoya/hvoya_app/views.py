@@ -2,7 +2,7 @@ import json
 
 from datetime import datetime, timedelta
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
 from .utils.db_utils import (
     get_historical_data, get_settings_data, set_new_settings, update_sensors_data,
-    give_sensors_cashed_data
+    give_sensors_cashed_data, get_lighting_data
 )
 from .utils.auth_utils import is_staff_checker
 
@@ -22,10 +22,12 @@ def index(request: HttpRequest) -> HttpResponse:
     Контроллер главной страницы с отображением состояния сенсоров.
     """
     historical_data: dict = get_historical_data()
-    current_data: dict = give_sensors_cashed_data()
+    current_sensors_data: dict = give_sensors_cashed_data()
+    lighting_data: dict = get_lighting_data()
     context: dict = {
         'historical_data': historical_data,
-        'current_data': current_data
+        'current_data': current_sensors_data,
+        'lighting_data': lighting_data
     }
     return render(request, 'hvoya_app/index.html', context)
 
