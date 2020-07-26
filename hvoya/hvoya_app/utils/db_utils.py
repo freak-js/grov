@@ -11,6 +11,9 @@ from django.core.cache import cache
 from hvoya_app.models import GrowBoxHistoricalData, CashedGrowBoxSettings, GrowBoxSettings
 
 
+# БЛОК ОБРАБОТКИ СТАТИСТИЧЕСКИХ ДАННЫХ
+
+
 def get_historical_data() -> Dict[str, list]:
     """
     Получает исторические данные за текуший и вчеращний день.
@@ -45,11 +48,20 @@ def get_historical_data() -> Dict[str, list]:
     return historical_data
 
 
+# БЛОК РАБОТЫ С НАСТРОЙКАМИ ГРОУБОКСА
+
+
 def get_settings_data() -> Dict[str, int]:
     """
     Возвращает кеш настроек гроубокса в формате словаря.
     """
-    if not CashedGrowBoxSettings.cache_is_installed(CashedGrowBoxSettings):
+    minimal_soil_humidity = cache.get('minimal_soil_humidity')
+    lamp_on_time = cache.get('lamp_on_time')
+    lamp_off_time = cache.get('lamp_off_time')
+    pump_run_time = cache.get('pump_run_time')
+    data_sending_frequency = cache.get('data_sending_frequency')
+
+    if not all([minimal_soil_humidity, lamp_on_time, lamp_off_time, pump_run_time, data_sending_frequency]):
         CashedGrowBoxSettings.set_cash(CashedGrowBoxSettings)
     return CashedGrowBoxSettings.get_cashed_settings_data(CashedGrowBoxSettings)
 
@@ -78,6 +90,9 @@ def set_new_settings(request: HttpRequest) -> None:
     settings.pump_run_time = pump_run_time
     settings.data_sending_frequency = data_sending_frequency
     settings.save()
+
+
+# БЛОК РАБОТЫ С ДАННЫМИ СЕНСОРОВ
 
 
 def update_sensors_data(new_sensors_data: dict) -> None:
