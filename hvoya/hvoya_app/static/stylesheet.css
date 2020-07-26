@@ -261,6 +261,34 @@ body{
     width: 370px;
 }
 
+/* ИНПУТЫ */
+
+.settings_input_label{
+    font-size: 60px;
+    margin-top: 70px;
+    color: #ef6914;
+}
+
+.settings_input{
+    height: 115px;
+    width: 80%;
+    border-radius: 45px;
+    margin-top: 20px;
+    background-color: #e8e8e8;
+    border: 0px;
+    text-align: center;
+    font-size: 75px;
+    font-weight: bold;
+    color: #404040;
+}
+
+.settings_submit{
+    font-weight: bold;
+    border: none;
+    position: absolute;
+    bottom: 70px;
+}
+
 /* ПЕРЕОПРЕДЕЛНИЕ СТИЛЕЙ БИБЛИОТЕК */
 
 .ct-label{

@@ -21,23 +21,24 @@
 
         {% csrf_token %}
 
-        <div>
+        <div class="flex_center flex_direction_column">
 
-            <label for="minimal_soil_humidity">Минимальная влажность грунта</label>
-            <label for="lamp_on_time">Час включения</label>
-            <label for="lamp_off_time">Час отключения</label>
-            <label for="pump_run_time">Время работы помпы</label>
-            <label for="data_sending_frequency">Промежутки отправки данных</label>
+            <label class="settings_input_label" for="minimal_soil_humidity">Влажность грунта</label>
+            <input type="number" class="settings_input" name="minimal_soil_humidity" id="minimal_soil_humidity" value="{{ minimal_soil_humidity }}" required>
 
-        </div>
+            <label class="settings_input_label" for="lamp_on_time">Час включения</label>
+            <input type="number" class="settings_input" name="lamp_on_time" id="lamp_on_time" value="{{ lamp_on_time }}" required>
 
-        <div>
+            <label class="settings_input_label" for="lamp_off_time">Час отключения</label>
+            <input type="number" class="settings_input" name="lamp_off_time" id="lamp_off_time" value="{{ lamp_off_time }}" required>
 
-            <input type="number" name="minimal_soil_humidity" id="minimal_soil_humidity">
-            <input type="number" name="lamp_on_time" id="lamp_on_time">
-            <input type="number" name="lamp_off_time" id="lamp_off_time">
-            <input type="number" name="pump_run_time" id="pump_run_time">
-            <input type="number" name="data_sending_frequency" id="data_sending_frequency">
+            <label class="settings_input_label" for="pump_run_time">Время работы помпы</label>
+            <input type="number" class="settings_input" name="pump_run_time" id="pump_run_time" value="{{ pump_run_time }}" required>
+
+            <label class="settings_input_label" for="data_sending_frequency">Промежутки отправки</label>
+            <input type="number" class="settings_input" name="data_sending_frequency" id="data_sending_frequency" value="{{ data_sending_frequency }}" required>
+
+            <input type="submit" class="link_to_settings settings_submit" value="Применить">
 
         </div>
 
