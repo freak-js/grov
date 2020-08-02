@@ -1,3 +1,5 @@
 # Project exclude paths
 /myvenv/
 *.sqlite3
+/hvoya/hvoya_app/migrations/0002_auto_20200725_0947.py
+/.idea/
