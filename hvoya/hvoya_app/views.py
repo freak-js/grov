@@ -8,11 +8,11 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
-from .utils.db_utils import (
-    get_historical_data, get_settings_data, set_new_settings, update_sensors_data,
-    give_sensors_cashed_data, get_lighting_data
-)
 from .utils.auth_utils import is_staff_checker
+from .utils.settings_utils import get_settings_data, set_new_settings
+from .utils.statistic_utils import get_historical_data
+from .utils.sensors_utils import update_sensors_data, give_sensors_cashed_data
+from .utils.lighting_utils import get_lighting_data
 
 
 @require_GET
