@@ -183,11 +183,28 @@
 
 {{ historical_data|json_script:"historical_data" }}
 
+{{ donut_chart_data|json_script:"donut_chart_data" }}
+
 <script>
 
     // Блок инициализации графиков
 
     let historical_data = JSON.parse(document.getElementById('historical_data').textContent);
+    let donut_chart_data = JSON.parse(document.getElementById('donut_chart_data').textContent);
+
+    function getDonutChartData(donut_chart_data){
+
+        if (donut_chart_data.remaining_days > 0){
+
+            return [donut_chart_data.days_in_growth_stage, donut_chart_data.remaining_days]
+
+        } else {
+
+            return [donut_chart_data.days_in_growth_stage]
+
+        }
+        
+    };
 
     var graph_data = {
     labels: [
@@ -205,7 +222,7 @@
     };
 
     var donut_data = {
-        series: [50, 80],
+        series: getDonutChartData(donut_chart_data),
     };
 
     var donut_option = {
