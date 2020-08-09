@@ -283,9 +283,9 @@ body{
 }
 
 .settings_submit{
+    margin: 70px 0;
     font-weight: bold;
     border: none;
-    position: absolute;
     bottom: 70px;
 }
 
