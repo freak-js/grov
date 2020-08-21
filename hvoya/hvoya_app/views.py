@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
 from .utils.auth_utils import is_staff_checker
-from .utils.settings_utils import get_settings_data, set_new_settings
+from .utils.settings_utils import get_settings_data, set_new_settings, get_settings_for_donut_chart
 from .utils.statistic_utils import get_historical_data
 from .utils.sensors_utils import update_sensors_data, give_sensors_cashed_data
 from .utils.lighting_utils import get_lighting_data
@@ -21,13 +21,11 @@ def index(request: HttpRequest) -> HttpResponse:
     """
     Контроллер главной страницы с отображением состояния сенсоров.
     """
-    historical_data: dict = get_historical_data()
-    current_sensors_data: dict = give_sensors_cashed_data()
-    lighting_data: dict = get_lighting_data()
     context: dict = {
-        'historical_data': historical_data,
-        'current_data': current_sensors_data,
-        'lighting_data': lighting_data
+        'historical_data': get_historical_data(),
+        'current_data': give_sensors_cashed_data(),
+        'lighting_data': get_lighting_data(),
+        'donut_chart_data': get_settings_for_donut_chart()
     }
     return render(request, 'hvoya_app/index.html', context)
 
@@ -40,7 +38,9 @@ def settings(request: HttpRequest) -> HttpResponse:
     """
     if request.method == 'GET':
         current_cached_settings: dict = get_settings_data()
-        return render(request, 'hvoya_app/settings.html', current_cached_settings)
+        settings_for_donut_chart: dict = get_settings_for_donut_chart()
+        context = {**current_cached_settings, **settings_for_donut_chart}
+        return render(request, 'hvoya_app/settings.html', context)
     set_new_settings(request)
     context = {'message': 'Настройки успешно применены!'}
     return render(request, 'hvoya_app/notification.html', context)
