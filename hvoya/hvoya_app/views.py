@@ -8,7 +8,6 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import GrowBoxDateTime, GrowBoxHistoricalData
-from .utils.auth_utils import is_staff_checker
 from .utils.settings_utils import get_settings_data, set_new_settings, get_settings_for_donut_chart
 from .utils.statistic_utils import get_historical_data
 from .utils.sensors_utils import update_sensors_data, give_sensors_cashed_data
@@ -16,7 +15,6 @@ from .utils.lighting_utils import get_lighting_data
 
 
 @require_GET
-@is_staff_checker
 def index(request: HttpRequest) -> HttpResponse:
     """
     Контроллер главной страницы с отображением состояния сенсоров.
@@ -31,7 +29,6 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(['GET', 'POST'])
-@is_staff_checker
 def settings(request: HttpRequest) -> HttpResponse:
     """
     Контроллер страницы с настройками гроубокса.
@@ -69,7 +66,6 @@ def get_cached_sensors_data(request: HttpRequest) -> HttpResponse:
 
 
 @require_GET
-@is_staff_checker
 def generate_test_data(request: HttpRequest) -> HttpResponse:
     """
     Контроллер заполнения БД историческими данными показаний с сенсоров.
