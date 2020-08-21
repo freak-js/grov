@@ -69,19 +69,14 @@ def get_settings_for_donut_chart() -> dict:
     Делает запрос в базу и получает данные для
     формирования круговой диаграммы спелости.
     """
+    if not GrowBoxSettings.objects.all().first():
+        set_default_settings_and_cash_them()
+
     growbox_settings: GrowBoxSettings = GrowBoxSettings.objects.all().first()
     date_format = '%Y-%m-%d'
 
-    if not growbox_settings:
-        set_default_settings_and_cash_them()
-
     planting_date = growbox_settings.planting_date
     days_before_harvest = growbox_settings.days_before_harvest
-
-    if not all([planting_date, days_before_harvest]):
-        growbox_settings.planting_date = settings.DEFAULT_PLANTING_DATE
-        growbox_settings.days_before_harvest = settings.DEFAULT_DAYS_BEFORE_HARVEST
-        growbox_settings.save(update_fields=['planting_date', 'days_before_harvest'])
 
     planting_datetime = datetime.datetime.strptime(planting_date, date_format)
     harvest_datetime = planting_datetime + datetime.timedelta(days=days_before_harvest)
