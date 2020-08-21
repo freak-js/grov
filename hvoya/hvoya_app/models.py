@@ -7,8 +7,8 @@ class GrowBoxSettings(models.Model):
     lamp_off_time = models.IntegerField('Время выключения лампы в часах')
     pump_run_time = models.IntegerField('Время работы помпы в секундах')
     data_sending_frequency = models.IntegerField('Таймер отправки данных с платы в секундах')
-    planting_date = models.CharField('Дата посадки в формате: 25.08.2020', max_length=20, null=True)
-    days_before_harvest = models.IntegerField('Дней до предполагаемой технической спелости', null=True)
+    planting_date = models.CharField('Дата посадки в формате: 2020-08-20', max_length=20, default='2020-01-01')
+    days_before_harvest = models.IntegerField('Дней до предполагаемой технической спелости', default=0)
 
 
 class GrowBoxDateTime(models.Model):
