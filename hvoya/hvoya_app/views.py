@@ -73,32 +73,32 @@ def generate_test_data(request: HttpRequest) -> HttpResponse:
     GrowBoxDateTime.objects.all().delete()
     GrowBoxHistoricalData.objects.all().delete()
 
-    from random import randint
-    today: datetime = datetime.now()
-    yesterday: datetime = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
-    hours_offset: timedelta = timedelta(hours=2)
-    fake_datetime: datetime = yesterday
-
-    while True:
-
-        if fake_datetime > today:
-            break
-
-        new_growbox_datetime: GrowBoxDateTime = GrowBoxDateTime(
-            year=fake_datetime.year,
-            month=fake_datetime.month,
-            day=fake_datetime.day,
-            hours=fake_datetime.hour
-        )
-        new_growbox_datetime.save()
-
-        GrowBoxHistoricalData(
-            air_temperature=randint(16, 30),
-            air_humidity=randint(35, 85),
-            soil_humidity=randint(25, 100),
-            datetime=new_growbox_datetime
-        ).save()
-
-        fake_datetime += hours_offset
+    # from random import randint
+    # today: datetime = datetime.now()
+    # yesterday: datetime = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+    # hours_offset: timedelta = timedelta(hours=2)
+    # fake_datetime: datetime = yesterday
+    #
+    # while True:
+    #
+    #     if fake_datetime > today:
+    #         break
+    #
+    #     new_growbox_datetime: GrowBoxDateTime = GrowBoxDateTime(
+    #         year=fake_datetime.year,
+    #         month=fake_datetime.month,
+    #         day=fake_datetime.day,
+    #         hours=fake_datetime.hour
+    #     )
+    #     new_growbox_datetime.save()
+    #
+    #     GrowBoxHistoricalData(
+    #         air_temperature=randint(16, 30),
+    #         air_humidity=randint(35, 85),
+    #         soil_humidity=randint(25, 100),
+    #         datetime=new_growbox_datetime
+    #     ).save()
+    #
+    #     fake_datetime += hours_offset
 
     return HttpResponse('Тестовые данные созданы')
