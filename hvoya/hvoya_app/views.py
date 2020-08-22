@@ -88,9 +88,7 @@ def generate_test_data(request: HttpRequest) -> HttpResponse:
             year=fake_datetime.year,
             month=fake_datetime.month,
             day=fake_datetime.day,
-            hours=fake_datetime.hour,
-            minutes=fake_datetime.minute,
-            seconds=fake_datetime.second
+            hours=fake_datetime.hour
         )
         new_growbox_datetime.save()
 
