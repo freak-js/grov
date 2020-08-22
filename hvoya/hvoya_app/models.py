@@ -16,8 +16,6 @@ class GrowBoxDateTime(models.Model):
     month = models.IntegerField('Месяц')
     day = models.IntegerField('День')
     hours = models.IntegerField('Часы')
-    minutes = models.IntegerField('Минуты')
-    seconds = models.IntegerField('Секунды')
 
 
 class GrowBoxHistoricalData(models.Model):
