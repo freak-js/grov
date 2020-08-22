@@ -12,10 +12,10 @@ def update_sensors_data(new_sensors_data: dict) -> None:
     """
     Фиксирует исторические данные для графиков.
     Кеширует свежие показания сенсоров как значения атрибутов класса GrowBox.
+    Фиксация исторических данных происходит только по четным часам.
     """
-    trigger_hours_values = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
     current_datetime = datetime.now()
-
+    check_even = current_datetime.hour == 0 or current_datetime.hour % 2 == 0
     air_temperature = new_sensors_data.get('air_temperature')
     air_humidity = new_sensors_data.get('air_humidity')
     soil_humidity = new_sensors_data.get('soil_humidity')
@@ -23,10 +23,12 @@ def update_sensors_data(new_sensors_data: dict) -> None:
     if not all([air_temperature, air_humidity, soil_humidity]):
         raise FieldError
 
-    if current_datetime.hour in trigger_hours_values:
+    if check_even:
         last_growbox_datetime = GrowBoxDateTime.objects.order_by("-id").first()
+        check_hour = last_growbox_datetime.hours != current_datetime.hour
+        check_hour_and_day = not check_hour and current_datetime.day != last_growbox_datetime.day
 
-        if not last_growbox_datetime or last_growbox_datetime.hours != current_datetime.hour:
+        if not last_growbox_datetime or check_hour or check_hour_and_day:
             new_growbox_datetime = GrowBoxDateTime(
                 year=current_datetime.year,
                 month=current_datetime.month,
