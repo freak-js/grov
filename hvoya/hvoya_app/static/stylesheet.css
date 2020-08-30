@@ -7,6 +7,19 @@
     }
 }
 
+/* ПЕРЕОПРЕДЕЛЕНИЕ СТАНДАРТНЫХ ТЕГОВ */
+
+input::-webkit-inner-spin-button, 
+input::-webkit-calendar-picker-indicator,
+input::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  display: none;
+}
+
+input:focus{
+    outline: none;
+}
+
 html{
     height: 100%;
 }
@@ -283,7 +296,7 @@ body{
 }
 
 .settings_submit{
-    margin: 70px 0;
+    margin: 100px 0 70px 0;
     font-weight: bold;
     border: none;
     bottom: 70px;
