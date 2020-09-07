@@ -1,7 +1,5 @@
 import json
 
-from datetime import datetime, timedelta
-
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
@@ -73,6 +71,7 @@ def generate_test_data(request: HttpRequest) -> HttpResponse:
     GrowBoxDateTime.objects.all().delete()
     GrowBoxHistoricalData.objects.all().delete()
 
+    # from datetime import datetime, timedelta
     # from random import randint
     # today: datetime = datetime.now()
     # yesterday: datetime = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
